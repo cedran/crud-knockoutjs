@@ -29,7 +29,7 @@ class Delete extends Action
             $itemId = $this->getRequest()->getParam('item_id');
 
             if (!$itemId) {
-                throw new LocalizedException(__('Item ID is required.'));
+                throw new \Magento\Framework\Exception\LocalizedException(__('Missing item ID.'));
             }
 
             $this->itemRepository->deleteById($itemId);
@@ -38,15 +38,10 @@ class Delete extends Action
                 'success' => true,
                 'message' => __('Item deleted successfully.')
             ];
-        } catch (LocalizedException $e) {
-            $response = [
-                'success' => false,
-                'message' => $e->getMessage()
-            ];
         } catch (\Exception $e) {
             $response = [
                 'success' => false,
-                'message' => __('An error occurred while deleting the item.')
+                'message' => __('Error deleting item: %1', $e->getMessage())
             ];
         }
 

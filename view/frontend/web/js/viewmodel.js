@@ -33,10 +33,11 @@ define([
         loadItems: function () {
             var self = this;
             $.ajax({
-                url: url.build('cedran_crudknockoutjs/item/list'),
+                url: url.build('cedran_crudknockoutjs/item/itemList'),
                 type: 'GET',
                 dataType: 'json'
             }).done(function (data) {
+                console.log(data.items); // Adicione esta linha para depuração
                 self.items(data.items);
             }).fail(function (response) {
                 console.error('Could not load items:', response);
@@ -75,7 +76,7 @@ define([
         },
         editItem: function (item) {
             this.isEdit(true);
-            this.editItemId(item.id);
+            this.editItemId(item.entity_id);
             this.newItemTitle(item.title);
             this.newItemDescription(item.description);
             this.addItemFormVisible(true);
@@ -89,13 +90,19 @@ define([
                 url: url.build('cedran_crudknockoutjs/item/delete'),
                 type: 'POST',
                 dataType: 'json',
-                data: { item_id: item.id },
+                data: { item_id: item.entity_id },
                 showLoader: true
             }).done(function (response) {
-                self.loadItems();
+                if (response.success) {
+                    self.loadItems();
+                } else {
+                    alert(response.message);
+                }
             }).fail(function (response) {
                 console.error('Error deleting item:', response);
+                alert('Failed to delete item.');
             });
         }
+
     });
 });

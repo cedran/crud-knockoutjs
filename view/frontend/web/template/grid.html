@@ -1,18 +1,31 @@
-<button data-bind="click: showAddItemForm">Add Item</button>
+<div id="crud-container">
+    <button data-bind="click: showAddItemForm">Add Item</button>
 
-<div data-bind="visible: addItemFormVisible">
-    <h3>Add/Edit Item</h3>
-    <input type="text" placeholder="Title" data-bind="value: newItemTitle, valueUpdate: 'input'">
-    <textarea placeholder="Description" data-bind="value: newItemDescription, valueUpdate: 'input'"></textarea>
-    <button data-bind="click: saveItem">Save Item</button>
-    <button data-bind="click: hideAddItemForm">Cancel</button>
-</div>
-
-<div class="items-list" data-bind="foreach: items">
-    <div class="item">
-        <h4 data-bind="text: title"></h4>
-        <p data-bind="text: description"></p>
-        <button data-bind="click: $parent.editItem.bind($parent, $data)">Edit</button>
-        <button data-bind="click: $parent.deleteItem.bind($parent, $data)">Delete</button>
+    <div data-bind="visible: addItemFormVisible">
+        <h3 data-bind="text: isEdit() ? 'Edit Item' : 'Add Item'"></h3>
+        <input type="text" placeholder="Title" data-bind="value: newItemTitle, valueUpdate: 'input'">
+        <textarea placeholder="Description" data-bind="value: newItemDescription, valueUpdate: 'input'"></textarea>
+        <button data-bind="click: saveItem">Save Item</button>
+        <button data-bind="click: hideAddItemForm">Cancel</button>
     </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody data-bind="foreach: items">
+        <tr>
+            <td data-bind="text: title"></td>
+            <td data-bind="text: description"></td>
+            <td>
+                <button data-bind="click: $parent.editItem.bind($parent, $data)">Edit</button>
+                <button data-bind="click: $parent.deleteItem.bind($parent, $data)">Delete</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
