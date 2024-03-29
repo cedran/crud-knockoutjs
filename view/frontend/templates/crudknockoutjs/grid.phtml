@@ -1,0 +1,19 @@
+<?php /** @var \Cedran\CrudKnockoutjs\Block\Items $block */ ?>
+<div id="crud-container" data-bind="scope:'crudknockoutjs'">
+    <!-- ko template: getTemplate() --><!-- /ko -->
+</div>
+
+<script type="text/x-magento-init">
+    {
+        "*": {
+            "Magento_Ui/js/core/app": {
+                "components": {
+                    "crudknockoutjs": {
+                        "component": "Cedran_CrudKnockoutjs/js/viewmodel",
+                        "items": <?php echo json_encode($block->getItems()); ?>
+                    }
+                }
+            }
+        }
+    }
+</script>
